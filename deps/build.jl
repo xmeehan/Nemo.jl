@@ -126,7 +126,7 @@ cd(wdir)
 
 # install FLINT
 try
-  run(`git clone https://github.com/wbhart/flint2.git`)
+  run(`git clone https://github.com/alexjbest/flint2.git`)
 catch
   cd("$wdir/flint2")
   run(`git pull`)

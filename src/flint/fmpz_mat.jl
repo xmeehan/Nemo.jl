@@ -9,9 +9,9 @@ export fmpz_mat, FmpzMatSpace, getindex, getindex!, setindex!, rows, cols,
        gram, hadamard, is_hadamard, hnf, is_hnf, hnf_with_transform,
        hnf_modular, lll, lll_gram, lll_with_transform, lll_gram_with_transform,
        lll_with_removal, lll_with_removal_transform,
-       nullspace, rank, rref, reduce_mod, snf, snf_diagonal, is_snf, solve,
-       solve_dixon, trace, transpose, content, hcat, vcat, addmul!, zero!,
-       window, pseudo_inv, hnf_modular_eldiv
+       nullspace, rank, rref, reduce_mod, snf, snf_diagonal, is_snf,
+       snf_with_transform, solve, solve_dixon, trace, transpose, content, hcat,
+       vcat, addmul!, zero!, window, pseudo_inv, hnf_modular_eldiv
 
 ###############################################################################
 #
@@ -765,6 +765,20 @@ function snf(x::fmpz_mat)
    ccall((:fmpz_mat_snf, :libflint), Void,
                 (Ptr{fmpz_mat}, Ptr{fmpz_mat}), &z, &x)
    return z
+end
+
+function snf_with_transform(x::fmpz_mat)
+   z = parent(x)()
+   if rows(x) == cols(x)
+      parz = parent(x)
+   else
+      parz = FmpzMatSpace(rows(x), rows(x))
+   end
+   u = parz()
+   v = parz()
+   ccall((:fmpz_mat_snf_transform, :libflint), Void,
+                (Ptr{fmpz_mat}, Ptr{fmpz_mat}, Ptr{fmpz_mat}, Ptr{fmpz_mat}), &z, &u, &v, &x)
+   return z, u, v
 end
 
 function snf_diagonal(x::fmpz_mat)

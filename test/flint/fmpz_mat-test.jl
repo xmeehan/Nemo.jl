@@ -421,6 +421,11 @@ function test_fmpz_mat_snf()
 
    @test is_snf(snf_diagonal(B))
 
+   U = S([0 1 0; -44 31 3; -1115 786 76])
+   V = S([1 61 -65; 0 -17 18; 0 1 -1])
+
+   @test snf_with_transform(A) == (snf(A),U,V)
+
    println("PASS")
 end
 
