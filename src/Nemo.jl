@@ -123,8 +123,8 @@ function __init__()
       cglobal(:jl_realloc),
       cglobal(:jl_free))
 
-   ccall((:flint_set_abort, libflint), Void,
-      (Ptr{Void},), cfunction(flint_abort, Void, ()))
+#   ccall((:flint_set_abort, libflint), Void,
+#      (Ptr{Void},), cfunction(flint_abort, Void, ()))
 
    println("")
    println("Welcome to Nemo version 0.4.0")
